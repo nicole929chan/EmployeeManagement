@@ -14,9 +14,15 @@ namespace EmployeeManagement.Models
             _employeeList = new List<Employee>()
             {
                 new Employee() { Id = 1, Name = "Nick", Department = "HR", Email = "nick@example.com"},
-                new Employee() { Id = 2, Name = "Simon", Department = "HR", Email = "simon@example.com"}
+                new Employee() { Id = 2, Name = "Simon", Department = "IT", Email = "simon@example.com"}
             };
         }
+
+        public IEnumerable<Employee> GetAllEmployee()
+        {
+            return _employeeList;
+        }
+
         public Employee GetEmployee(int Id)
         {
             return _employeeList.FirstOrDefault(e => e.Id == Id);
