@@ -42,11 +42,16 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult Create(Employee employee)
+        public IActionResult Create(Employee employee)
         {
-            Employee newEmployee = _employeeRepository.Add(employee);
+            if (ModelState.IsValid)
+            {
+                Employee newEmployee = _employeeRepository.Add(employee);
+            
+                return RedirectToAction("details", new { id = newEmployee.Id });
+            }
 
-            return RedirectToAction("details", new { id = newEmployee.Id });
+            return View();
         }
     }
 }
