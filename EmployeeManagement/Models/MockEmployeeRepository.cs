@@ -27,5 +27,13 @@ namespace EmployeeManagement.Models
         {
             return _employeeList.FirstOrDefault(e => e.Id == Id);
         }
+
+        Employee IEmployeeRepository.Add(Employee employee)
+        {
+            employee.Id = _employeeList.Max(e => e.Id) + 1;
+            _employeeList.Add(employee);
+
+            return employee;
+        }
     }
 }
