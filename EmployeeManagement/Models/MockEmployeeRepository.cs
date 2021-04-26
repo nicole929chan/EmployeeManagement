@@ -50,7 +50,7 @@ namespace EmployeeManagement.Models
 
         Employee IEmployeeRepository.Update(Employee employeeChanges)
         {
-            Employee employee = _employeeList.FirstOrDefault(e => e.Id == id);
+            Employee employee = _employeeList.FirstOrDefault(e => e.Id == employeeChanges.Id);
             if (employee != null)
             {
                 employee.Name = employeeChanges.Name;
