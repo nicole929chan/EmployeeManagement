@@ -1,6 +1,7 @@
 ﻿using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -52,22 +53,25 @@ namespace EmployeeManagement.Controllers
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
-                if (model.Photo != null)
+                if (model.Photos != null && model.Photos.Count > 0)
                 {
-                    // 資料夾路徑
-                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                    foreach(IFormFile photo in model.Photos)
+                    {
+                        // 資料夾路徑
+                        string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
 
-                    // 檔名
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                        // 檔名
+                        uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
 
-                    // 完整路徑
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        // 完整路徑
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    // 上傳檔案
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                        // 上傳檔案
+                        photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                    }                    
                 }
 
-                // 表單的欄位(屬性)指定給物件
+                // 表單的欄位(屬性)指定給物件, PhotoPath是最後一個檔名
                 Employee newEmployee = new Employee
                 {
                     Name = model.Name,
