@@ -44,6 +44,11 @@ namespace EmployeeManagement
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                // app.UseStatusCodePages();  // 簡單的錯誤畫面
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
+            }
 
             //app.UseRouting();
 
