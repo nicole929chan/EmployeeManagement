@@ -46,6 +46,8 @@ namespace EmployeeManagement
             }
             else
             {
+                app.UseExceptionHandler("/Error");
+
                 // app.UseStatusCodePages();                          // 簡單的錯誤畫面
                 //app.UseStatusCodePagesWithRedirects("/Error/{0}");  // 重新導向(再發起一個請情求)
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");    // 重新執行MW(不會重新發起請求)
