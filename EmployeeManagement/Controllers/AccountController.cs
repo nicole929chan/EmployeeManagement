@@ -68,7 +68,7 @@ namespace EmployeeManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
                 // 使用者成功登入
                 if (result.Succeeded)
