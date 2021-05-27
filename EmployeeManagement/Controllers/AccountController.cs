@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -64,7 +65,8 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +75,14 @@ namespace EmployeeManagement.Controllers
                 // 使用者成功登入
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("index", "home");
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return LocalRedirect(returnUrl);  // 返回前一動作的本機頁面 (避免url弱點)
+                    }
+                    else
+                    {
+                        return RedirectToAction("index", "home");
+                    }                    
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
